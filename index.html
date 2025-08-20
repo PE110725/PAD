@@ -8,29 +8,40 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background: #f4f4f9;
       text-align: center;
+
+      /* 🔹 Full background image */
+      background: url("images/plastics-map.png") no-repeat center center fixed;
+      background-size: cover;
     }
+
+    /* Overlay so text/cards are readable */
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.85);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     header {
-      background: #333;
-      color: white;
-      padding: 15px;
+      padding: 20px;
     }
-    header img {
-      width: 100%;
-      max-height: 300px;
-      object-fit: cover;
-    }
+
     h1 {
       margin: 0;
       padding: 10px;
     }
+
     .menu {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
       padding: 40px;
+      width: 100%;
+      max-width: 900px;
     }
+
     .card {
       background: white;
       padding: 20px;
@@ -38,9 +49,11 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       transition: transform 0.2s ease;
     }
+
     .card:hover {
       transform: scale(1.05);
     }
+
     .card a {
       text-decoration: none;
       color: #333;
@@ -50,25 +63,24 @@
   </style>
 </head>
 <body>
-  <header>
-    <!-- Add image here -->
-    <img src="images/plastics-map.png" alt="Plastic Waste World Map">
-    <h1>Welcome to Dashboard</h1>
-  </header>
+  <div class="overlay">
+    <header>
+      <h1>Welcome to Plastics World</h1>
+    </header>
 
-  <div class="menu">
-    <div class="card">
-      <a href="pigment_entry.html">➕ Add Pigment Data</a>
-    </div>
-    <!-- Future Links -->
-    <div class="card">
-      <a href="#">📂 View Pigment Records</a>
-    </div>
-    <div class="card">
-      <a href="#">⚙️ Add Polymer Data</a>
-    </div>
-    <div class="card">
-      <a href="#">📊 Reports</a>
+    <div class="menu">
+      <div class="card">
+        <a href="pigment_entry.html">➕ Add Pigment Data</a>
+      </div>
+      <div class="card">
+        <a href="#">📂 View Pigment Records</a>
+      </div>
+      <div class="card">
+        <a href="#">⚙️ Add Polymer Data</a>
+      </div>
+      <div class="card">
+        <a href="#">📊 Reports</a>
+      </div>
     </div>
   </div>
 </body>
