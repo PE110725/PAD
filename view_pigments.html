@@ -95,12 +95,15 @@
   </div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbw84LSqs9iOYYgnL4DRGPtCRnNcOEsMrfebr2DSWpf5_6w5k6qnzkl--ONnwfqZ6Qei/exec"; // <-- replace with your new web app URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbw84LSqs9iOYYgnL4DRGPtCRnNcOEsMrfebr2DSWpf5_6w5k6qnzkl--ONnwfqZ6Qei/exec"; 
+    let headers = [];
     let records = [];
 
     async function loadData() {
       const response = await fetch(scriptURL);
-      records = await response.json();
+      const json = await response.json();
+      headers = json.headers;   // exact sheet order
+      records = json.records;
       displayTable(records);
     }
 
@@ -116,21 +119,21 @@
         return;
       }
 
-      // Create headers
-      const headers = Object.keys(data[0]);
+      // 🔹 Build headers from sheet order
       let headerRow = "<tr>" + headers.map(h => `<th>${h}</th>`).join("") + "</tr>";
       tableHead.innerHTML = headerRow;
 
-      // Create rows
+      // 🔹 Rows aligned with headers
       data.forEach(row => {
-        let rowHTML = "<tr>" + headers.map(h => `<td>${row[h] || ""}</td>`).join("") + "</tr>";
+        let rowHTML = "<tr>" + headers.map(h => `<td>${row[h] || ""}</td>`).join("") + "</tr>`;
         tableBody.innerHTML += rowHTML;
       });
     }
 
     function filterData() {
       const searchValue = document.getElementById("searchInput").value.toUpperCase();
-      const filtered = records.filter(r => r["pigmentName"] && r["pigmentName"].toUpperCase().includes(searchValue));
+      // search specifically in "PIGMENT NAME" column
+      const filtered = records.filter(r => r["PIGMENT NAME"] && r["PIGMENT NAME"].toUpperCase().includes(searchValue));
       displayTable(filtered);
     }
 
