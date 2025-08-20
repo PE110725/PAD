@@ -9,7 +9,16 @@
       padding: 0;
       /* Background image */
       background: url("plastics-map.png") no-repeat center center fixed;
-      background-size: cover;
+      background-size: cover; /* Default for desktops/laptops */
+    }
+
+    /* On small screens, show the whole image */
+    @media (max-width: 768px) {
+      body {
+        background-size: contain;
+        background-position: center top;
+        background-color: #fff; /* fills empty space if image doesn’t cover */
+      }
     }
 
     /* Overlay for readability */
