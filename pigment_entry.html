@@ -5,27 +5,36 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f9;
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      /* Background image */
+      background: url("images/plastics-map.png") no-repeat center center fixed;
+      background-size: cover;
     }
+
+    /* Overlay for readability */
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.85);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
     .form-container {
       background: white;
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       width: 100%;
       max-width: 500px;
       text-align: center;
-    }
-    h1 {
-      margin-bottom: 20px;
-      font-size: 22px;
-      color: #333;
     }
     input {
       width: 100%;
@@ -66,23 +75,27 @@
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <h1>Submit Pigment Data</h1>
-    <form id="pigmentForm">
-      <input type="text" name="pigmentName" placeholder="Pigment Name" required>
-      <input type="text" name="pigmentCompany" placeholder="Pigment Company" required>
-      <input type="text" name="cieName" placeholder="CIE Name of Pigment">
-      <input type="text" name="tone" placeholder="Tone of Pigment">
-      <input type="text" name="transparency" placeholder="Transparency / Opacity">
-      <input type="text" name="polymers" placeholder="Compatible Polymers">
-      <input type="text" name="acidity" placeholder="Acidity / Basicity">
-      <input type="text" name="pigmentType" placeholder="Pigment Type">
-      
-      <button type="submit">Submit</button>
-    </form>
+  <!-- Overlay content -->
+  <div class="overlay">
+    <h1>Pigment Data Entry</h1>
 
-    <p id="response"></p>
-    <a href="index.html" class="back-link">⬅ Back to Dashboard</a>
+    <div class="form-container">
+      <form id="pigmentForm">
+        <input type="text" name="pigmentName" placeholder="Pigment Name" required>
+        <input type="text" name="pigmentCompany" placeholder="Pigment Company" required>
+        <input type="text" name="cieName" placeholder="CIE Name of Pigment">
+        <input type="text" name="tone" placeholder="Tone of Pigment">
+        <input type="text" name="transparency" placeholder="Transparency / Opacity">
+        <input type="text" name="polymers" placeholder="Compatible Polymers">
+        <input type="text" name="acidity" placeholder="Acidity / Basicity">
+        <input type="text" name="pigmentType" placeholder="Pigment Type">
+        
+        <button type="submit">Submit</button>
+      </form>
+
+      <p id="response"></p>
+      <a href="index.html" class="back-link">⬅ Back to Dashboard</a>
+    </div>
   </div>
 
   <script>
