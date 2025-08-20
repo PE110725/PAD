@@ -10,9 +10,18 @@
       padding: 0;
       text-align: center;
 
-      /* 🔹 Full background image */
+      /* 🔹 Default background for desktops */
       background: url("plastics-map.png") no-repeat center center fixed;
       background-size: cover;
+    }
+
+    /* 🔹 On mobiles/tablets show full image */
+    @media (max-width: 768px) {
+      body {
+        background-size: contain;
+        background-position: center top;
+        background-color: #fff; /* fill empty space */
+      }
     }
 
     /* Overlay so text/cards are readable */
