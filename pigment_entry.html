@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pigment Data Entry</title>
+</head>
+<body>
+  <h1>Submit Pigment Data</h1>
+  <form id="pigmentForm">
+    <input type="text" name="pigmentName" placeholder="Pigment Name" required><br><br>
+    <input type="text" name="pigmentCompany" placeholder="Pigment Company" required><br><br>
+    <input type="text" name="cieName" placeholder="CIE Name of Pigment"><br><br>
+    <input type="text" name="tone" placeholder="Tone of Pigment"><br><br>
+    <input type="text" name="transparency" placeholder="Transparency / Opacity"><br><br>
+    <input type="text" name="polymers" placeholder="Compatible Polymers"><br><br>
+    <input type="text" name="acidity" placeholder="Acidity / Basicity"><br><br>
+    <input type="text" name="pigmentType" placeholder="Pigment Type"><br><br>
+    
+    <button type="submit">Submit</button>
+  </form>
+
+  <p id="response"></p>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxlOMC5neWMcg1xujreFVlkAsTeTn3_FKfaJWpDICs/dev";
+
+    document.getElementById("pigmentForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+
+      fetch(scriptURL, { method: "POST", body: formData })
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("response").innerText = data.message;
+          this.reset();
+        })
+        .catch(error => {
+          document.getElementById("response").innerText = "Error: " + error;
+        });
+    });
+  </script>
+</body>
+</html>
