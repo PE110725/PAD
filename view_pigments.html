@@ -3,18 +3,16 @@
 <head>
   <title>View Pigment Records</title>
   <style>
-    /* Body with background image */
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
-      background: url('plastics-map.png') no-repeat center center fixed; /* Replace with your image URL */
+      background: url('plastics-map.png') no-repeat center center fixed; 
       background-size: cover;
       margin: 0;
     }
 
-    /* Semi-transparent container for readability */
     .container {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 50px auto;
       background-color: rgba(255, 255, 255, 0.95);
       padding: 20px;
@@ -24,17 +22,21 @@
 
     h1 { text-align: center; }
 
-    /* Search box + button */
-    #searchBox {
-      width: 70%;
-      max-width: 400px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
+    .search-container {
+      text-align: center;
+      margin-top: 10px;
     }
 
-    button {
+    .search-container input {
+      width: 400px;
+      padding: 8px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .search-container button {
       padding: 10px 20px;
       font-size: 16px;
       border: none;
@@ -44,26 +46,28 @@
       cursor: pointer;
     }
 
-    button:hover {
+    .search-container button:hover {
       background-color: #0056b3;
     }
 
-    /* Table styling */
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
       background: white;
     }
+
     th, td {
       border: 1px solid #ddd;
       padding: 8px;
       text-align: left;
     }
+
     th {
       background: #333;
       color: white;
     }
+
     tr:nth-child(even) { background: #f2f2f2; }
 
     .back-link {
@@ -74,13 +78,8 @@
       font-weight: bold;
       color: #333;
     }
-    .back-link:hover { text-decoration: underline; }
 
-    /* Center search box + button */
-    .search-container {
-      text-align: center;
-      margin-top: 10px;
-    }
+    .back-link:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -88,7 +87,7 @@
     <h1>View Pigment Records</h1>
 
     <div class="search-container">
-      <input type="text" id="searchBox" placeholder="Search by Pigment Name...">
+      <input type="text" id="searchBox" placeholder="Search across selected columns...">
       <button onclick="filterTable()">Search</button>
     </div>
 
@@ -101,10 +100,13 @@
   </div>
 
   <script>
-    const viewURL = "https://script.google.com/macros/s/AKfycbwRc2XsIsa4MMGTHbMxqkR0gkyc-o__0ltB_-8GhpWs2dOi0O_FR3jICS6RiSAKvzUD/exec"; // Replace with your doGet Web App URL
+    const viewURL = "https://script.google.com/macros/s/AKfycbwRc2XsIsa4MMGTHbMxqkR0gkyc-o__0ltB_-8GhpWs2dOi0O_FR3jICS6RiSAKvzUD/exec";
 
     let allRecords = [];
     let headers = [];
+
+    // Columns you want to search by
+    const searchColumns = ["PIGMENT NAME","COMMON NAME","CI NAME OF PIGMENT","COMPATIBLE POLYMERS","HEAT STABILITY","FOOD GRADE"];
 
     async function loadData() {
       try {
@@ -112,7 +114,6 @@
         const data = await res.json();
         headers = data.headers;
         allRecords = data.records;
-
         renderTable(allRecords);
       } catch (err) {
         console.error("Error loading data:", err);
@@ -123,10 +124,8 @@
       const thead = document.querySelector("#pigmentTable thead");
       const tbody = document.querySelector("#pigmentTable tbody");
 
-      // headers
       thead.innerHTML = "<tr>" + headers.map(h => `<th>${h}</th>`).join("") + "</tr>";
 
-      // rows
       tbody.innerHTML = records.map(r =>
         "<tr>" + headers.map(h => `<td>${r[h] || ""}</td>`).join("") + "</tr>"
       ).join("");
@@ -134,7 +133,11 @@
 
     function filterTable() {
       const query = document.getElementById("searchBox").value.toUpperCase();
-      const filtered = allRecords.filter(r => r["PIGMENT NAME"] && r["PIGMENT NAME"].toUpperCase().includes(query));
+
+      const filtered = allRecords.filter(r => {
+        return searchColumns.some(col => r[col] && r[col].toUpperCase().includes(query));
+      });
+
       renderTable(filtered);
     }
 
