@@ -102,9 +102,9 @@
   </div>
 
   <script>
-    const correctPasskey = "PLAST123"; // Set your passkey here
-    const viewURL = "YOUR_VIEW_WEBAPP_URL"; 
-    const updateURL = "YOUR_UPDATE_WEBAPP_URL";
+    const passkeyURL = "https://script.google.com/macros/s/AKfycbz0n9dZzQ00CDjvtnKA0nONUut5_6n4HZ3VYeXC48PgDgEY7_sO39q9FcYiYMqUL-eB/exec; // Google Apps Script Web App URL that verifies passkey
+    const viewURL = "https://script.google.com/macros/s/AKfycbwRc2XsIsa4MMGTHbMxqkR0gkyc-o__0ltB_-8GhpWs2dOi0O_FR3jICS6RiSAKvzUD/exec";       // Web App URL to fetch pigment data
+    const updateURL = "https://script.google.com/macros/s/AKfycbwoF_n3UlNgej-6H3_4UEBffXy4_DOQOB-T7_MkvXzu8gQ8kJqKHPA9Z9nE1mZ7iWy4/exec";   // Web App URL to submit updates
 
     let allRecords = [];
     let headers = [];
@@ -121,14 +121,24 @@
       }
     }
 
-    function checkPasskey() {
+    async function checkPasskey() {
       const input = document.getElementById("passkey").value;
-      if(input === correctPasskey){
-        document.getElementById("loginContainer").style.display = "none";
-        document.getElementById("mainInterface").style.display = "block";
-        loadData();
-      } else {
-        alert("Incorrect passkey!");
+      try {
+        const res = await fetch(passkeyURL, {
+          method: "POST",
+          body: JSON.stringify({ passkey: input })
+        });
+        const result = await res.json();
+
+        if(result.status === "success") {
+          document.getElementById("loginContainer").style.display = "none";
+          document.getElementById("mainInterface").style.display = "block";
+          loadData();
+        } else {
+          alert("Incorrect passkey!");
+        }
+      } catch (err) {
+        alert("Error verifying passkey: " + err.message);
       }
     }
 
