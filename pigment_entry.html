@@ -65,7 +65,11 @@
 <input type="text" name="acidity" placeholder="Acidity/Basicity">
 <input type="text" name="pigmentType" placeholder="Pigment Type">
 <input type="text" name="heatStability" placeholder="Heat Stability">
-<input type="text" name="tintingStrength" placeholder="Tinting Strength">
+<select name="tintingStrength" required>
+  <option value="" disabled selected hidden>TINT STRENGTH</option>
+  <option value="HIGH">HIGH</option>
+  <option value="LOW">LOW</option>
+</select>
 <input type="text" name="weatherFastness" placeholder="Weather Fastness">
 <input type="text" name="lightFastness" placeholder="Light Fastness">
 <input type="text" name="phValue" placeholder="pH Value">
@@ -75,7 +79,7 @@
   <option value="Non RoHS">Non RoHS</option>
 </select>
 <select name="foodGrade" required>
-  <option value="" disabled selected hidden>foodGrade</option>
+  <option value="" disabled selected hidden>FOOD GRADE</option>
   <option value="Food Grade">Food Grade</option>
   <option value="Non Food Grade">Non Food Grade</option>
 </select>
