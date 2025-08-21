@@ -3,7 +3,87 @@
 <head>
   <title>Pigment Data Entry</title>
   <style>
-    /* Your existing CSS unchanged */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url("plastics-map.png") no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        background-size: contain;
+        background-position: center top;
+        background-color: #fff;
+      }
+    }
+
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.85);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #555;
+    }
+
+    #response {
+      margin-top: 15px;
+      font-weight: bold;
+      color: green;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 15px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -28,7 +108,7 @@
         <input type="text" name="phValue" placeholder="PH VALUE">
         <input type="text" name="rohs" placeholder="ROHS">
         <input type="text" name="foodGrade" placeholder="FOOD GRADE">
-        
+
         <button type="submit">Submit</button>
       </form>
 
@@ -38,34 +118,33 @@
   </div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxaLKm8-vTJtl5EVyVn3zqcXFLGT3v1EWSxkvzBny2IvtCUI9DZAUz96VL7P42DQlLh/exec"; // Replace with your Web App URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbx6smxgiWUEIj5m4bffwdJFiXZaRspTSNr8c4Xv2rysaeUenELiVa0YsQ0wTeGA-n25/exec"; // Replace with your deployed Web App URL
 
     document.getElementById("pigmentForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      
-      const formData = new FormData(this);
       const responseEl = document.getElementById("response");
       responseEl.innerText = "Submitting...";
 
-      fetch(scriptURL, { method: "POST", body: formData })
-        .then(res => res.text())
-        .then(text => {
-          try {
-            const data = JSON.parse(text);
-            responseEl.innerText = data.message;
+      // Build JSON from form inputs
+      const formData = {};
+      this.querySelectorAll("input").forEach(input => {
+        formData[input.name] = input.value;
+      });
 
-            if (data.status === "success") {
-              this.reset(); // clear form
-            }
-          } catch(err) {
-            console.error("JSON parse error:", text);
-            responseEl.innerText = "Server returned invalid response!";
-          }
-        })
-        .catch(err => {
-          console.error("Fetch error:", err);
-          responseEl.innerText = "Error submitting data!";
-        });
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.json())
+      .then(data => {
+        responseEl.innerText = data.message;
+        if (data.status === "success") this.reset();
+      })
+      .catch(err => {
+        console.error(err);
+        responseEl.innerText = "Error submitting data!";
+      });
     });
   </script>
 </body>
