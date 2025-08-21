@@ -7,18 +7,19 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      /* Background image */
       background: url("plastics-map.png") no-repeat center center fixed;
-      background-size: cover;
+      background-size: cover; /* Default for desktops/laptops */
     }
-
+    /* On small screens, show the whole image */
     @media (max-width: 768px) {
       body {
         background-size: contain;
         background-position: center top;
-        background-color: #fff;
+        background-color: #fff; /* fills empty space if image doesn’t cover */
       }
     }
-
+    /* Overlay for readability */
     .overlay {
       background-color: rgba(255, 255, 255, 0.85);
       min-height: 100vh;
@@ -28,11 +29,9 @@
       align-items: center;
       padding: 40px 20px;
     }
-
     h1 {
       margin-bottom: 20px;
     }
-
     .form-container {
       background: white;
       padding: 30px;
@@ -42,7 +41,6 @@
       max-width: 500px;
       text-align: center;
     }
-
     input {
       width: 100%;
       padding: 10px;
@@ -51,7 +49,6 @@
       border-radius: 6px;
       font-size: 14px;
     }
-
     button {
       width: 100%;
       padding: 12px;
@@ -62,17 +59,14 @@
       font-size: 16px;
       cursor: pointer;
     }
-
     button:hover {
       background: #555;
     }
-
     #response {
       margin-top: 15px;
       font-weight: bold;
       color: green;
     }
-
     .back-link {
       display: block;
       margin-top: 15px;
@@ -80,7 +74,6 @@
       color: #333;
       font-weight: bold;
     }
-
     .back-link:hover {
       text-decoration: underline;
     }
@@ -89,7 +82,6 @@
 <body>
   <div class="overlay">
     <h1>Pigment Data Entry</h1>
-
     <div class="form-container">
       <form id="pigmentForm">
         <input type="text" name="pigmentName" placeholder="Pigment Name" required>
@@ -101,14 +93,7 @@
         <input type="text" name="polymers" placeholder="Compatible Polymers">
         <input type="text" name="acidity" placeholder="Acidity / Basicity">
         <input type="text" name="pigmentType" placeholder="Pigment Type">
-        <input type="text" name="heatStability" placeholder="Heat Stability">
-        <input type="text" name="tintStrength" placeholder="Tint Strength">
-        <input type="text" name="weatherFastness" placeholder="Weather Fastness">
-        <input type="text" name="lightFastness" placeholder="Light Fastness">
-        <input type="text" name="phValue" placeholder="PH VALUE">
-        <input type="text" name="rohs" placeholder="ROHS">
-        <input type="text" name="foodGrade" placeholder="FOOD GRADE">
-
+        <input type="text" name="meltingPoint" placeholder="Melting Point">
         <button type="submit">Submit</button>
       </form>
 
@@ -118,33 +103,26 @@
   </div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbx6smxgiWUEIj5m4bffwdJFiXZaRspTSNr8c4Xv2rysaeUenELiVa0YsQ0wTeGA-n25/exec"; // Replace with your deployed Web App URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwr0POqn6xwplI04L765R4h_Aocn1BPWTZ50fr7N_BKY6iRQUSrPW9hyNozag4VOA3a/exec";
 
     document.getElementById("pigmentForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      const responseEl = document.getElementById("response");
-      responseEl.innerText = "Submitting...";
+      const formData = new FormData(this);
 
-      // Build JSON from form inputs
-      const formData = {};
-      this.querySelectorAll("input").forEach(input => {
-        formData[input.name] = input.value;
-      });
-
-      fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: { "Content-Type": "application/json" }
-      })
-      .then(res => res.json())
-      .then(data => {
-        responseEl.innerText = data.message;
-        if (data.status === "success") this.reset();
-      })
-      .catch(err => {
-        console.error(err);
-        responseEl.innerText = "Error submitting data!";
-      });
+      fetch(scriptURL, { method: "POST", body: formData })
+        .then(response => response.text()) // get raw text first for debugging
+        .then(txt => {
+          try {
+            const data = JSON.parse(txt);
+            document.getElementById("response").innerText = data.message;
+          } catch(err) {
+            document.getElementById("response").innerText = "Unexpected response: " + txt;
+          }
+          this.reset();
+        })
+        .catch(error => {
+          document.getElementById("response").innerText = "Error: " + error;
+        });
     });
   </script>
 </body>
