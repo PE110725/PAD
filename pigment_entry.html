@@ -118,14 +118,26 @@
       e.preventDefault();
       
       const formData = new FormData(this);
+      document.getElementById("response").innerText = "Submitting...";
 
       fetch(scriptURL, { method: "POST", body: formData })
-        .then(res => res.json())   // expecting JSON response
-        .then(data => {
-          document.getElementById("response").innerText = data.message;
+        .then(res => res.text()) // read as text first
+        .then(text => {
+          try {
+            const data = JSON.parse(text);
+            document.getElementById("response").innerText = data.message;
+
+            // Clear form on success
+            if (data.status === "success") {
+              document.getElementById("pigmentForm").reset();
+            }
+          } catch(err) {
+            console.error("JSON parse error:", text);
+            document.getElementById("response").innerText = "Server returned invalid response!";
+          }
         })
         .catch(err => {
-          console.error("Error:", err);
+          console.error("Fetch error:", err);
           document.getElementById("response").innerText = "Error submitting data!";
         });
     });
