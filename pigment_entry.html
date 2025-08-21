@@ -6,7 +6,7 @@
     h2 {
   text-align: center;
   color: #FF0000;        /* white text (good for dark bg) */
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
     body {
@@ -21,7 +21,7 @@
   background: #0073e6;
   color: white;
   padding: 8px 14px;
-  text-decoration: #0073e6;
+  text-decoration: none;
   border-radius: 5px;
   font-size: 14px;
 }
@@ -34,28 +34,74 @@
     input, select, textarea { padding: 6px; width: 100%; }
     button { grid-column: span 2; padding: 10px; background: #0073e6; color: white; border: none; cursor: pointer; }
     button:hover { background: #005bb5; }
+    .popup-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.8);
+  color: #FF0000;
+  padding: 20px 30px;
+  border-radius: 10px;
+  font-size: 16px;
+  text-align: center;
+  z-index: 1000;
+  display: none; /* hidden by default */
+}
+
   </style>
 </head>
 <body>
   <a href="dashboard.html" class="back-btn">⬅ Back to Dashboard</a>
   <h2>Product Entry Form</h2>
   <form id="entryForm">
-    <label>Pigment Name</label><input type="text" name="pigmentName" required>
-    <label>Pigment Company</label><input type="text" name="pigmentCompany" required>
-    <label>Common Name</label><input type="text" name="commonName">
-    <label>CI Name of Pigment</label><input type="text" name="ciName">
-    <label>Tone of Pigment</label><input type="text" name="tone">
-    <label>Transparency/Opacity</label><input type="text" name="transparency">
-    <label>Compatible Polymers</label><input type="text" name="polymers">
-    <label>Acidity/Basicity</label><input type="text" name="acidity">
-    <label>Pigment Type</label><input type="text" name="pigmentType">
-    <label>Heat Stability</label><input type="text" name="heatStability">
-    <label>Tinting Strength</label><input type="text" name="tintingStrength">
-    <label>Weather Fastness</label><input type="text" name="weatherFastness">
-    <label>Light Fastness</label><input type="text" name="lightFastness">
-    <label>pH Value</label><input type="text" name="phValue">
-    <label>ROHS</label><input type="text" name="rohs">
-    <label>Food Grade</label><input type="text" name="foodGrade">
+    <label>Pigment Name</label>
+<input type="text" name="pigmentName" placeholder="Enter Pigment Name" required>
+
+<label>Pigment Company</label>
+<input type="text" name="pigmentCompany" placeholder="Enter Pigment Company" required>
+
+<label>Common Name</label>
+<input type="text" name="commonName" placeholder="Enter Common Name">
+
+<label>CI Name of Pigment</label>
+<input type="text" name="ciName" placeholder="Enter CI Name of Pigment">
+
+<label>Tone of Pigment</label>
+<input type="text" name="tone" placeholder="Enter Tone of Pigment">
+
+<label>Transparency/Opacity</label>
+<input type="text" name="transparency" placeholder="Enter Transparency/Opacity">
+
+<label>Compatible Polymers</label>
+<input type="text" name="polymers" placeholder="Enter Compatible Polymers">
+
+<label>Acidity/Basicity</label>
+<input type="text" name="acidity" placeholder="Enter Acidity/Basicity">
+
+<label>Pigment Type</label>
+<input type="text" name="pigmentType" placeholder="Enter Pigment Type">
+
+<label>Heat Stability</label>
+<input type="text" name="heatStability" placeholder="Enter Heat Stability">
+
+<label>Tinting Strength</label>
+<input type="text" name="tintingStrength" placeholder="Enter Tinting Strength">
+
+<label>Weather Fastness</label>
+<input type="text" name="weatherFastness" placeholder="Enter Weather Fastness">
+
+<label>Light Fastness</label>
+<input type="text" name="lightFastness" placeholder="Enter Light Fastness">
+
+<label>pH Value</label>
+<input type="text" name="phValue" placeholder="Enter pH Value">
+
+<label>ROHS</label>
+<input type="text" name="rohs" placeholder="Enter ROHS">
+
+<label>Food Grade</label>
+<input type="text" name="foodGrade" placeholder="Enter Food Grade">
 
     <button type="submit">Submit</button>
   </form>
@@ -73,14 +119,18 @@
         body: formData
       })
       .then(res => res.json())
-      .then(data => {
-        document.getElementById("response").innerText = "✅ Data submitted successfully!";
-        this.reset();
-      })
-      .catch(err => {
-        document.getElementById("response").innerText = "❌ Error: " + err;
-      });
-    });
+.then(data => {
+  popup.innerText = "✅ Data submitted successfully!";
+  popup.style.display = "block";
+  setTimeout(() => { popup.style.display = "none"; }, 3000); // hide after 3 sec
+  this.reset();
+})
+.catch(err => {
+  popup.innerText = "❌ Error: " + err;
+  popup.style.display = "block";
+  setTimeout(() => { popup.style.display = "none"; }, 3000);
+});
   </script>
+  <div id="popup" class="popup-message"></div>
 </body>
 </html>
