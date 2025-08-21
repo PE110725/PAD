@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Product Entry Form</title>
+  <title>ENTER PIGMENT PROPERTIES</title>
   <style>
-    h2 {
+    h1 {
   text-align: center;
   color: #FF0000;        /* white text (good for dark bg) */
   margin-bottom: 40px;
@@ -56,9 +56,9 @@
   <h2>Product Entry Form</h2>
   <form id="entryForm">
     <input type="text" name="pigmentName" placeholder="Pigment Name" required>
-<input type="text" name="pigmentCompany" placeholder="Pigment Company" required>
+<input type="text" name="pigmentCompany" placeholder="Pigment Company">
 <input type="text" name="commonName" placeholder="Common Name">
-<input type="text" name="ciName" placeholder="CI Name of Pigment">
+<input type="text" name="ciName" placeholder="CI Name of Pigment" required>
 <input type="text" name="tone" placeholder="Tone of Pigment">
 <input type="text" name="transparency" placeholder="Transparency/Opacity">
 <input type="text" name="polymers" placeholder="Compatible Polymers">
@@ -69,9 +69,16 @@
 <input type="text" name="weatherFastness" placeholder="Weather Fastness">
 <input type="text" name="lightFastness" placeholder="Light Fastness">
 <input type="text" name="phValue" placeholder="pH Value">
-<input type="text" name="rohs" placeholder="ROHS">
-<input type="text" name="foodGrade" placeholder="Food Grade">
-
+<select name="rohs" required>
+  <option value="" disabled selected hidden>ROHS</option>
+  <option value="RoHS">RoHS</option>
+  <option value="Non RoHS">Non RoHS</option>
+</select>
+<select name="foodGrade" required>
+  <option value="" disabled selected hidden>foodGrade</option>
+  <option value="Food Grade">Food Grade</option>
+  <option value="Non Food Grade">Non Food Grade</option>
+</select>
     <button type="submit">Submit</button>
   </form>
 
