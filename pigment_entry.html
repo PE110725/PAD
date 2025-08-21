@@ -1,128 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Pigment Data Entry</title>
+  <meta charset="UTF-8">
+  <title>Add Pigment Data</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      /* Background image */
-      background: url("plastics-map.png") no-repeat center center fixed;
-      background-size: cover; /* Default for desktops/laptops */
-    }
-    /* On small screens, show the whole image */
-    @media (max-width: 768px) {
-      body {
-        background-size: contain;
-        background-position: center top;
-        background-color: #fff; /* fills empty space if image doesn’t cover */
-      }
-    }
-    /* Overlay for readability */
-    .overlay {
-      background-color: rgba(255, 255, 255, 0.85);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 40px 20px;
-    }
-    h1 {
-      margin-bottom: 20px;
-    }
-    .form-container {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #333;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #555;
-    }
-    #response {
-      margin-top: 15px;
-      font-weight: bold;
-      color: green;
-    }
-    .back-link {
-      display: block;
-      margin-top: 15px;
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-    .back-link:hover {
-      text-decoration: underline;
-    }
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+    h2 { text-align: center; }
+    form { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
+    button { margin-top: 20px; padding: 10px 20px; background: #333; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #555; }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <h1>Pigment Data Entry</h1>
-    <div class="form-container">
-      <form id="pigmentForm">
-        <input type="text" name="pigmentName" placeholder="Pigment Name" required>
-        <input type="text" name="pigmentCompany" placeholder="Pigment Company">
-        <input type="text" name="commonName" placeholder="Common Name">
-        <input type="text" name="ciName" placeholder="CI Name of Pigment" required>
-        <input type="text" name="tone" placeholder="Tone of Pigment">
-        <input type="text" name="transparency" placeholder="Transparency / Opacity">
-        <input type="text" name="polymers" placeholder="Compatible Polymers">
-        <input type="text" name="acidity" placeholder="Acidity / Basicity">
-        <input type="text" name="pigmentType" placeholder="Pigment Type">
-        <input type="text" name="meltingPoint" placeholder="Melting Point">
-        <button type="submit">Submit</button>
-      </form>
+  <h2>➕ Add Pigment Data</h2>
 
-      <p id="response"></p>
-      <a href="index.html" class="back-link">⬅ Back to Dashboard</a>
-    </div>
-  </div>
+  <form id="pigmentForm">
+    <label>Pigment Name</label>
+    <input type="text" name="pigmentName" required>
+
+    <label>Pigment Company</label>
+    <input type="text" name="pigmentCompany" required>
+
+    <label>Common Name</label>
+    <input type="text" name="commonName">
+
+    <label>CI Name of Pigment</label>
+    <input type="text" name="ciName">
+
+    <label>Tone of Pigment</label>
+    <input type="text" name="tone">
+
+    <label>Transparency / Opacity</label>
+    <input type="text" name="transparency">
+
+    <label>Compatible Polymers</label>
+    <input type="text" name="compatiblePolymers">
+
+    <label>Acidity / Basicity</label>
+    <input type="text" name="acidity">
+
+    <label>Pigment Type</label>
+    <input type="text" name="pigmentType">
+
+    <label>Heat Stability</label>
+    <input type="text" name="heatStability">
+
+    <label>Tinting Strength</label>
+    <input type="text" name="tintingStrength">
+
+    <label>Weather Fastness</label>
+    <input type="text" name="weatherFastness">
+
+    <label>Light Fastness</label>
+    <input type="text" name="lightFastness">
+
+    <label>pH Value</label>
+    <input type="text" name="phValue">
+
+    <label>ROHS</label>
+    <input type="text" name="rohs">
+
+    <label>Food Grade</label>
+    <input type="text" name="foodGrade">
+
+    <button type="submit">Submit</button>
+  </form>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwr0POqn6xwplI04L765R4h_Aocn1BPWTZ50fr7N_BKY6iRQUSrPW9hyNozag4VOA3a/exec";
-
     document.getElementById("pigmentForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const formData = new FormData(this);
 
-      fetch(scriptURL, { method: "POST", body: formData })
-        .then(response => response.text()) // get raw text first for debugging
-        .then(txt => {
-          try {
-            const data = JSON.parse(txt);
-            document.getElementById("response").innerText = data.message;
-          } catch(err) {
-            document.getElementById("response").innerText = "Unexpected response: " + txt;
-          }
-          this.reset();
-        })
-        .catch(error => {
-          document.getElementById("response").innerText = "Error: " + error;
-        });
+      fetch("https://script.google.com/macros/s/AKfycbwbzTVpjwAjPtyOXtmHbaBwLlgyPd6A2Mb3LX2YfOOMo2fbUcKSaqVTA0hzahHfkd-mJw/exec", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.text())
+      .then(data => alert("✅ Data saved: " + data))
+      .catch(err => alert("❌ Error: " + err));
     });
   </script>
 </body>
