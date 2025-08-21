@@ -112,26 +112,26 @@
   </div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxk45RXuyBIDCUWwFgI7zHLs4L-D-bC1TtvvgtInZRDegR-HsX0EkWfu1TvX5PO3U75/exec"; // replace with your Apps Script deployment URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxk45RXuyBIDCUWwFgI7zHLs4L-D-bC1TtvvgtInZRDegR-HsX0EkWfu1TvX5PO3U75/exec";
 
-    document.getElementById("pigmentForm").addEventListener("submit", async function(e) {
+    document.getElementById("pigmentForm").addEventListener("submit", function(e) {
       e.preventDefault();
+      
+      const formData = new FormData(this);
+      const params = new URLSearchParams(formData);
 
-      const formData = Object.fromEntries(new FormData(this).entries());
-
-      try {
-        const res = await fetch(scriptURL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData)
-        });
-
-        const data = await res.json();
-        document.getElementById("response").innerText = data.message;
+      fetch(scriptURL, { 
+        method: "POST",
+        body: params
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("response").innerText = data.message || "Saved!";
         this.reset();
-      } catch (error) {
+      })
+      .catch(error => {
         document.getElementById("response").innerText = "Error: " + error;
-      }
+      });
     });
   </script>
 </body>
