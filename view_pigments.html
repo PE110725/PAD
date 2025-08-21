@@ -6,11 +6,10 @@
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
-      background: url('plastics-map.png') no-repeat center center fixed; 
+      background: url('plastics-map.png') no-repeat center center fixed;
       background-size: cover;
       margin: 0;
     }
-
     .container {
       max-width: 1200px;
       margin: 50px auto;
@@ -19,14 +18,13 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
-
-    h1 { text-align: center; }
-
+    h1 {
+      text-align: center;
+    }
     .search-container {
       text-align: center;
       margin-top: 10px;
     }
-
     .search-container input {
       width: 400px;
       padding: 8px;
@@ -35,7 +33,6 @@
       border-radius: 6px;
       font-size: 14px;
     }
-
     .search-container button {
       padding: 10px 20px;
       font-size: 16px;
@@ -45,31 +42,27 @@
       color: white;
       cursor: pointer;
     }
-
     .search-container button:hover {
       background-color: #0056b3;
     }
-
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
       background: white;
     }
-
     th, td {
       border: 1px solid #ddd;
       padding: 8px;
       text-align: left;
     }
-
     th {
       background: #333;
       color: white;
     }
-
-    tr:nth-child(even) { background: #f2f2f2; }
-
+    tr:nth-child(even) {
+      background: #f2f2f2;
+    }
     .back-link {
       display: block;
       margin-top: 20px;
@@ -78,14 +71,14 @@
       font-weight: bold;
       color: #333;
     }
-
-    .back-link:hover { text-decoration: underline; }
+    .back-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>View Pigment Records</h1>
-
     <div class="search-container">
       <input type="text" id="searchBox" placeholder="Search across selected columns...">
       <button onclick="filterTable()">Search</button>
@@ -101,12 +94,18 @@
 
   <script>
     const viewURL = "https://script.google.com/macros/s/AKfycbzEHTvl2UekZOOalfP2VDif6l4WFAFyBh7CfWoL5cTbTB_tt9nSeqrhbySeNAZw2yfE/exec";
-
     let allRecords = [];
     let headers = [];
 
     // Columns you want to search by
-    const searchColumns = ["PIGMENT NAME","COMMON NAME","CI NAME OF PIGMENT","COMPATIBLE POLYMERS","HEAT STABILITY","FOOD GRADE"];
+    const searchColumns = [
+      "PIGMENT NAME",
+      "COMMON NAME",
+      "CI NAME OF PIGMENT",
+      "COMPATIBLE POLYMERS",
+      "HEAT STABILITY",
+      "FOOD GRADE"
+    ];
 
     async function loadData() {
       try {
@@ -133,11 +132,9 @@
 
     function filterTable() {
       const query = document.getElementById("searchBox").value.toUpperCase();
-
       const filtered = allRecords.filter(r => {
         return searchColumns.some(col => r[col] && r[col].toUpperCase().includes(query));
       });
-
       renderTable(filtered);
     }
 
