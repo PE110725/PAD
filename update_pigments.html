@@ -122,27 +122,30 @@
     }
 
     async function checkPasskey() {
-      const input = document.getElementById("passkey").value;
-      try {
-        const res = await fetch(passkeyURL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ passkey: input })
-        });
-        const result = await res.json();
-        console.log(result);
+  const input = document.getElementById("passkey").value;
+  try {
+    // ✅ Updated fetch with headers
+    const res = await fetch(passkeyURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }, // add this line
+      body: JSON.stringify({ passkey: input })
+    });
 
-        if(result.status === "success") {
-          document.getElementById("loginContainer").style.display = "none";
-          document.getElementById("mainInterface").style.display = "block";
-          loadData();
-        } else {
-          alert("Incorrect passkey!");
-        }
-      } catch (err) {
-        alert("Error verifying passkey: " + err.message);
-      }
+    const result = await res.json();
+    console.log(result);
+
+    if(result.status === "success") {
+      document.getElementById("loginContainer").style.display = "none";
+      document.getElementById("mainInterface").style.display = "block";
+      loadData();
+    } else {
+      alert("Incorrect passkey!");
     }
+  } catch (err) {
+    alert("Error verifying passkey: " + err.message);
+  }
+}
+
 
     function searchRecord() {
       const query = document.getElementById("searchBox").value.toUpperCase();
