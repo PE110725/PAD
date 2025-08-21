@@ -118,20 +118,16 @@
       e.preventDefault();
       
       const formData = new FormData(this);
-      const params = new URLSearchParams(formData);
 
-      fetch(scriptURL, { 
-        method: "POST",
-        body: params
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("response").innerText = data.message || "Saved!";
-        this.reset();
-      })
-      .catch(error => {
-        document.getElementById("response").innerText = "Error: " + error;
-      });
+      fetch(scriptURL, { method: "POST", body: formData })
+        .then(res => res.json())   // expecting JSON response
+        .then(data => {
+          document.getElementById("response").innerText = data.message;
+        })
+        .catch(err => {
+          console.error("Error:", err);
+          document.getElementById("response").innerText = "Error submitting data!";
+        });
     });
   </script>
 </body>
