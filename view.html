@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Pigment Entries</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      /* Background image */
+      background: url('plastics-map.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    h2 {
+      text-align: center;
+      color: #fff; /* white text for visibility */
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 300px;
+      padding: 6px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 6px 12px;
+      margin-left: 5px;
+      border-radius: 5px;
+      border: none;
+      background-color: #0073e6;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005bb5;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: rgba(255,255,255,0.9); /* semi-transparent table */
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #0073e6;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h2>Search Pigment Entries</h2>
+
+  <input type="text" id="searchBox" placeholder="Enter search text">
+  <button id="searchBtn">Search</button>
+
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>Pigment Name</th>
+        <th>Pigment Company</th>
+        <th>Common Name</th>
+        <th>CI Name</th>
+        <th>Tone</th>
+        <th>Transparency/Opacity</th>
+        <th>Compatible Polymers</th>
+        <th>Acidity/Basicity</th>
+        <th>Pigment Type</th>
+        <th>Heat Stability</th>
+        <th>Tinting Strength</th>
+        <th>Weather Fastness</th>
+        <th>Light Fastness</th>
+        <th>pH Value</th>
+        <th>ROHS</th>
+        <th>Food Grade</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbyD2MMRjuWZxLHWt_QLQOragJzaEagUh5LX32dE8XTXGl2n_YSps6FSqWlFM6xW1f24Ig/exec"; // replace with your Apps Script Web App URL
+
+    document.getElementById("searchBtn").addEventListener("click", function() {
+      const query = document.getElementById("searchBox").value.trim();
+      if(!query) return alert("Please enter a search value.");
+
+      fetch(webAppUrl + "?q=" + encodeURIComponent(query))
+        .then(res => res.json())
+        .then(data => {
+          const tbody = document.querySelector("#dataTable tbody");
+          tbody.innerHTML = ""; // clear previous results
+
+          if(data.length === 0){
+            tbody.innerHTML = "<tr><td colspan='16'>No matching entries found.</td></tr>";
+            return;
+          }
+
+          data.forEach(row => {
+            const tr = document.createElement("tr");
+            row.forEach(cell => {
+              const td = document.createElement("td");
+              td.innerText = cell;
+              tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+          });
+        })
+        .catch(err => alert("Error fetching data: " + err));
+    });
+  </script>
+</body>
+</html>
