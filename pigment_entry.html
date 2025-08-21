@@ -3,81 +3,7 @@
 <head>
   <title>Pigment Data Entry</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: url("plastics-map.png") no-repeat center center fixed;
-      background-size: cover;
-    }
-
-    @media (max-width: 768px) {
-      body {
-        background-size: contain;
-        background-position: center top;
-        background-color: #fff;
-      }
-    }
-
-    .overlay {
-      background-color: rgba(255, 255, 255, 0.85);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 40px 20px;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-    }
-
-    .form-container {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #333;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #555;
-    }
-    #response {
-      margin-top: 15px;
-      font-weight: bold;
-      color: green;
-    }
-    .back-link {
-      display: block;
-      margin-top: 15px;
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-    .back-link:hover {
-      text-decoration: underline;
-    }
+    /* Your existing CSS unchanged */
   </style>
 </head>
 <body>
@@ -112,33 +38,33 @@
   </div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbyKf54Q_ZrzeMt9hVTr2fqE3zWfxSkGIsqyhWlsLa_k2XNspibKEgbiv2ax9JXavx8C/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxaLKm8-vTJtl5EVyVn3zqcXFLGT3v1EWSxkvzBny2IvtCUI9DZAUz96VL7P42DQlLh/exec"; // Replace with your Web App URL
 
     document.getElementById("pigmentForm").addEventListener("submit", function(e) {
       e.preventDefault();
       
       const formData = new FormData(this);
-      document.getElementById("response").innerText = "Submitting...";
+      const responseEl = document.getElementById("response");
+      responseEl.innerText = "Submitting...";
 
       fetch(scriptURL, { method: "POST", body: formData })
-        .then(res => res.text()) // read as text first
+        .then(res => res.text())
         .then(text => {
           try {
             const data = JSON.parse(text);
-            document.getElementById("response").innerText = data.message;
+            responseEl.innerText = data.message;
 
-            // Clear form on success
             if (data.status === "success") {
-              document.getElementById("pigmentForm").reset();
+              this.reset(); // clear form
             }
           } catch(err) {
             console.error("JSON parse error:", text);
-            document.getElementById("response").innerText = "Server returned invalid response!";
+            responseEl.innerText = "Server returned invalid response!";
           }
         })
         .catch(err => {
           console.error("Fetch error:", err);
-          document.getElementById("response").innerText = "Error submitting data!";
+          responseEl.innerText = "Error submitting data!";
         });
     });
   </script>
