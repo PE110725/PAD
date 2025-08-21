@@ -22,7 +22,7 @@
 
     h1 { text-align: center; }
 
-    .search-container, .edit-container, .login-container {
+    .search-container, .login-container {
       text-align: center;
       margin-top: 10px;
     }
@@ -102,13 +102,13 @@
   </div>
 
   <script>
-    const passkeyURL = "https://script.google.com/macros/s/AKfycbz0n9dZzQ00CDjvtnKA0nONUut5_6n4HZ3VYeXC48PgDgEY7_sO39q9FcYiYMqUL-eB/exec; // Google Apps Script Web App URL that verifies passkey
-    const viewURL = "https://script.google.com/macros/s/AKfycbwRc2XsIsa4MMGTHbMxqkR0gkyc-o__0ltB_-8GhpWs2dOi0O_FR3jICS6RiSAKvzUD/exec";       // Web App URL to fetch pigment data
-    const updateURL = "https://script.google.com/macros/s/AKfycbwoF_n3UlNgej-6H3_4UEBffXy4_DOQOB-T7_MkvXzu8gQ8kJqKHPA9Z9nE1mZ7iWy4/exec";   // Web App URL to submit updates
+    const passkeyURL = "https://script.google.com/macros/s/AKfycbz0n9dZzQ00CDjvtnKA0nONUut5_6n4HZ3VYeXC48PgDgEY7_sO39q9FcYiYMqUL-eB/exec"; // replace with deployed URL
+    const viewURL = "https://script.google.com/macros/s/AKfycbwRc2XsIsa4MMGTHbMxqkR0gkyc-o__0ltB_-8GhpWs2dOi0O_FR3jICS6RiSAKvzUD/exec";       // replace with deployed URL
+    const updateURL = "https://script.google.com/macros/s/AKfycbwoF_n3UlNgej-6H3_4UEBffXy4_DOQOB-T7_MkvXzu8gQ8kJqKHPA9Z9nE1mZ7iWy4/exec";   // replace with deployed URL
 
     let allRecords = [];
     let headers = [];
-    let searchColumns = ["PIGMENT NAME","COMMON NAME","CI NAME OF PIGMENT","COMPATIBLE POLYMERS","HEAT STABILITY","FOOD GRADE"];
+    const searchColumns = ["PIGMENT NAME","COMMON NAME","CI NAME OF PIGMENT","COMPATIBLE POLYMERS","HEAT STABILITY","FOOD GRADE"];
 
     async function loadData() {
       try {
@@ -126,9 +126,11 @@
       try {
         const res = await fetch(passkeyURL, {
           method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ passkey: input })
         });
         const result = await res.json();
+        console.log(result);
 
         if(result.status === "success") {
           document.getElementById("loginContainer").style.display = "none";
@@ -171,14 +173,12 @@
       const updates = {};
       formData.forEach((v,k) => updates[k] = v);
 
-      const payload = {
-        row: form.dataset.row,
-        updates
-      };
+      const payload = { row: form.dataset.row, updates };
 
       try {
         const res = await fetch(updateURL, {
           method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
         const result = await res.json();
