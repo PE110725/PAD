@@ -2,84 +2,64 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Add Pigment Data</title>
+  <title>Pigment Entry</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
-    h2 { text-align: center; }
-    form { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
-    label { display: block; margin-top: 10px; font-weight: bold; }
-    input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
-    button { margin-top: 20px; padding: 10px 20px; background: #333; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    button:hover { background: #555; }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 800px; margin: auto; }
+    label { display: block; font-weight: bold; margin-bottom: 5px; }
+    input, select { width: 100%; padding: 8px; }
+    button { grid-column: 1 / span 2; padding: 10px; background: #007BFF; color: white; border: none; cursor: pointer; }
+    button:hover { background: #0056b3; }
   </style>
 </head>
 <body>
-  <h2>➕ Add Pigment Data</h2>
+  <h1>➕ Add Pigment Data</h1>
 
   <form id="pigmentForm">
-    <label>Pigment Name</label>
-    <input type="text" name="pigmentName" required>
-
-    <label>Pigment Company</label>
-    <input type="text" name="pigmentCompany" required>
-
-    <label>Common Name</label>
-    <input type="text" name="commonName">
-
-    <label>CI Name of Pigment</label>
-    <input type="text" name="ciName">
-
-    <label>Tone of Pigment</label>
-    <input type="text" name="tone">
-
-    <label>Transparency / Opacity</label>
-    <input type="text" name="transparency">
-
-    <label>Compatible Polymers</label>
-    <input type="text" name="compatiblePolymers">
-
-    <label>Acidity / Basicity</label>
-    <input type="text" name="acidity">
-
-    <label>Pigment Type</label>
-    <input type="text" name="pigmentType">
-
-    <label>Heat Stability</label>
-    <input type="text" name="heatStability">
-
-    <label>Tinting Strength</label>
-    <input type="text" name="tintingStrength">
-
-    <label>Weather Fastness</label>
-    <input type="text" name="weatherFastness">
-
-    <label>Light Fastness</label>
-    <input type="text" name="lightFastness">
-
-    <label>pH Value</label>
-    <input type="text" name="phValue">
-
-    <label>ROHS</label>
-    <input type="text" name="rohs">
-
-    <label>Food Grade</label>
-    <input type="text" name="foodGrade">
-
+    <div><label>Pigment Name</label><input type="text" name="pigmentName" required></div>
+    <div><label>Pigment Company</label><input type="text" name="pigmentCompany" required></div>
+    <div><label>Common Name</label><input type="text" name="commonName"></div>
+    <div><label>CI Name of Pigment</label><input type="text" name="ciName"></div>
+    <div><label>Tone of Pigment</label><input type="text" name="tone"></div>
+    <div><label>Transparency/Opacity</label><input type="text" name="transparency"></div>
+    <div><label>Compatible Polymers</label><input type="text" name="compatiblePolymers"></div>
+    <div><label>Acidity/Basicity</label><input type="text" name="acidity"></div>
+    <div><label>Pigment Type</label><input type="text" name="pigmentType"></div>
+    <div><label>Heat Stability</label><input type="text" name="heatStability"></div>
+    <div><label>Tinting Strength</label><input type="text" name="tintingStrength"></div>
+    <div><label>Weather Fastness</label><input type="text" name="weatherFastness"></div>
+    <div><label>Light Fastness</label><input type="text" name="lightFastness"></div>
+    <div><label>pH Value</label><input type="text" name="phValue"></div>
+    <div><label>ROHS</label><input type="text" name="rohs"></div>
+    <div><label>Food Grade</label><input type="text" name="foodGrade"></div>
+    
     <button type="submit">Submit</button>
   </form>
 
-  <script>
-    document.getElementById("pigmentForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const formData = new FormData(this);
+  <p id="response"></p>
 
-      fetch("https://script.google.com/macros/s/AKfycbwbzTVpjwAjPtyOXtmHbaBwLlgyPd6A2Mb3LX2YfOOMo2fbUcKSaqVTA0hzahHfkd-mJw/exec", {
-        method: "POST",
-        body: formData
-      })
-      .then(res => res.text())
-      .then(data => alert("✅ Data saved: " + data))
-      .catch(err => alert("❌ Error: " + err));
+  <script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzjyESMVYtAoBuuu2u2uXEWVO4XC_nNurFmPJWhNzWagMnkdzMHuSjrQ_6zNCaRfXroOw/exec"; // replace with Apps Script WebApp URL
+
+    document.getElementById("pigmentForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const res = await fetch(WEB_APP_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const text = await res.text();
+        document.getElementById("response").innerText = text;
+        e.target.reset();
+      } catch (err) {
+        document.getElementById("response").innerText = "❌ Error: " + err.message;
+      }
     });
   </script>
 </body>
