@@ -84,15 +84,11 @@
 </select>
     <button type="submit">Submit</button>
   </form>
-
   <p id="response"></p>
-
   <script>
     document.getElementById("entryForm").addEventListener("submit", function(e) {
       e.preventDefault();
-
       const formData = new FormData(this);
-
       fetch("https://script.google.com/macros/s/AKfycbzmF-5gXOeOmpoR0ZFUtcPjFZOIcu98Tl4E4JTvgM9rvb3x7O-Iok5DVjG-yghXbUMVsg/exec", {   // <-- replace with your deployed web app URL
         method: "POST",
         body: formData
