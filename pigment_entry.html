@@ -34,9 +34,7 @@
       font-size: 14px;
     }
 
-    .back-btn:hover {
-      background: #005bb5;
-    }
+    .back-btn:hover { background: #005bb5; }
 
     form {
       max-width: 800px;
@@ -55,9 +53,7 @@
       cursor: pointer;
     }
 
-    button:hover {
-      background: #005bb5;
-    }
+    button:hover { background: #005bb5; }
 
     .popup-message {
       position: fixed;
@@ -121,7 +117,7 @@
   <script>
     const popup = document.getElementById("popup");
 
-    // Auto-uppercase for text inputs & textareas
+    // Auto-uppercase inputs
     const inputs = document.querySelectorAll("input[type=text], textarea");
     inputs.forEach(input => {
       input.addEventListener("input", () => {
