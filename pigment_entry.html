@@ -133,16 +133,22 @@
       const form = this;
       const formData = new FormData(form);
 
-      fetch("https://script.google.com/macros/s/AKfycbxVed-jLo1V5o9nPfYPpjdfNsKdn0c0CjwBB3R-YEvyaOTtH1JPH3eB-uA2XCKPua5Rdw/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbwTeLkM8XakaYeOqyTJTiEXzmY_VYFjvHjT876b_A4xtmcF5KW2eV0paA4aSnjbwjm8-A/exec", {
         method: "POST",
         body: formData
       })
-      .then(res => res.text())
+      .then(res => res.json())  // <-- handle JSON response from doPost
       .then(data => {
-        popup.innerText = "✅ Data submitted successfully!";
+        if (data.result === "exists") {
+          popup.innerText = "❌ Pigment data already exists!";
+        } else if (data.result === "success") {
+          popup.innerText = "✅ Data submitted successfully!";
+          form.reset();
+        } else {
+          popup.innerText = "❌ Error: " + (data.message || "Unknown error");
+        }
         popup.style.display = "block";
         setTimeout(() => { popup.style.display = "none"; }, 3000);
-        form.reset();
       })
       .catch(err => {
         popup.innerText = "❌ Error: " + err;
