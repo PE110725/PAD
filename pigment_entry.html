@@ -4,108 +4,148 @@
   <title>ENTER PIGMENT PROPERTIES</title>
   <style>
     h2 {
-  text-align: center;
-  color: #FF0000;        /* white text (good for dark bg) */
-  margin-bottom: 40px;
-}
+      text-align: center;
+      color: #FF0000;
+      margin-bottom: 40px;
+    }
 
     body {
-  /* add these lines */
-  background: url('plastics-map.png') no-repeat center center fixed;
-  background-size: cover;
-}
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: url('plastics-map.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+
     .back-btn {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  background: #0073e6;
-  color: white;
-  padding: 8px 14px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 14px;
-}
-.back-btn:hover {
-  background: #005bb5;
-}
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    form { max-width: 800px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    label { font-weight: bold; }
-    input, select, textarea { padding: 6px; width: 100%; }
-    button { grid-column: span 2; padding: 10px; background: #0073e6; color: white; border: none; cursor: pointer; }
-    button:hover { background: #005bb5; }
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: #0073e6;
+      color: white;
+      padding: 8px 14px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .back-btn:hover {
+      background: #005bb5;
+    }
+
+    form {
+      max-width: 800px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      padding: 6px;
+      width: 100%;
+    }
+
+    button {
+      grid-column: span 2;
+      padding: 10px;
+      background: #0073e6;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #005bb5;
+    }
+
     .popup-message {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0,0,0,0.8);
-  color: #FF0000;
-  padding: 20px 30px;
-  border-radius: 10px;
-  font-size: 16px;
-  text-align: center;
-  z-index: 1000;
-  display: none; /* hidden by default */
-}
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.8);
+      color: #FF0000;
+      padding: 20px 30px;
+      border-radius: 10px;
+      font-size: 16px;
+      text-align: center;
+      z-index: 1000;
+      display: none; /* hidden by default */
+    }
   </style>
 </head>
 <body>
   <a href="dashboard.html" class="back-btn">⬅ Back to Dashboard</a>
   <h2>ENTER PIGMENT PROPERTIES</h2>
+
   <form id="entryForm">
     <input type="text" name="pigmentName" placeholder="Pigment Name" required>
-<input type="text" name="pigmentCompany" placeholder="Pigment Company">
-<input type="text" name="commonName" placeholder="Common Name">
-<input type="text" name="ciName" placeholder="CI Name of Pigment" required>
-<input type="text" name="tone" placeholder="Tone of Pigment">
-<input type="text" name="transparency" placeholder="Transparency/Opacity">
-<input type="text" name="polymers" placeholder="Compatible Polymers">
-<input type="text" name="acidity" placeholder="Acidity/Basicity">
-<input type="text" name="pigmentType" placeholder="Pigment Type">
-<input type="text" name="heatStability" placeholder="Heat Stability">
-<select name="tintingStrength" required>
-  <option value="" disabled selected hidden>TINT STRENGTH</option>
-  <option value="HIGH">HIGH</option>
-  <option value="LOW">LOW</option>
-</select>
-<input type="text" name="weatherFastness" placeholder="Weather Fastness">
-<input type="text" name="lightFastness" placeholder="Light Fastness">
-<input type="text" name="phValue" placeholder="pH Value">
-<select name="rohs" required>
-  <option value="" disabled selected hidden>ROHS</option>
-  <option value="RoHS">RoHS</option>
-  <option value="Non RoHS">Non RoHS</option>
-</select>
-<select name="foodGrade" required>
-  <option value="" disabled selected hidden>FOOD GRADE</option>
-  <option value="Food Grade">Food Grade</option>
-  <option value="Non Food Grade">Non Food Grade</option>
-</select>
+    <input type="text" name="pigmentCompany" placeholder="Pigment Company">
+    <input type="text" name="commonName" placeholder="Common Name">
+    <input type="text" name="ciName" placeholder="CI Name of Pigment" required>
+    <input type="text" name="tone" placeholder="Tone of Pigment">
+    <input type="text" name="transparency" placeholder="Transparency/Opacity">
+    <input type="text" name="polymers" placeholder="Compatible Polymers">
+    <input type="text" name="acidity" placeholder="Acidity/Basicity">
+    <input type="text" name="pigmentType" placeholder="Pigment Type">
+    <input type="text" name="heatStability" placeholder="Heat Stability">
+
+    <select name="tintingStrength" required>
+      <option value="" disabled selected hidden>TINT STRENGTH</option>
+      <option value="HIGH">HIGH</option>
+      <option value="LOW">LOW</option>
+    </select>
+
+    <input type="text" name="weatherFastness" placeholder="Weather Fastness">
+    <input type="text" name="lightFastness" placeholder="Light Fastness">
+    <input type="text" name="phValue" placeholder="pH Value">
+
+    <select name="rohs" required>
+      <option value="" disabled selected hidden>ROHS</option>
+      <option value="RoHS">RoHS</option>
+      <option value="Non RoHS">Non RoHS</option>
+    </select>
+
+    <select name="foodGrade" required>
+      <option value="" disabled selected hidden>FOOD GRADE</option>
+      <option value="Food Grade">Food Grade</option>
+      <option value="Non Food Grade">Non Food Grade</option>
+    </select>
+
     <button type="submit">Submit</button>
   </form>
-  <p id="response"></p>
+
+  <div id="popup" class="popup-message"></div>
+
   <script>
+    const popup = document.getElementById("popup");
+
     document.getElementById("entryForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      const formData = new FormData(this);
-      fetch("https://script.google.com/macros/s/AKfycbzmF-5gXOeOmpoR0ZFUtcPjFZOIcu98Tl4E4JTvgM9rvb3x7O-Iok5DVjG-yghXbUMVsg/exec", {   // <-- replace with your deployed web app URL
+      const form = this;
+      const formData = new FormData(form);
+
+      fetch("https://script.google.com/macros/s/AKfycbzmF-5gXOeOmpoR0ZFUtcPjFZOIcu98Tl4E4JTvgM9rvb3x7O-Iok5DVjG-yghXbUMVsg/exec", {
         method: "POST",
         body: formData
       })
-      .then(res => res.json())
-.then(data => {
-  popup.innerText = "✅ Data submitted successfully!";
-  popup.style.display = "block";
-  setTimeout(() => { popup.style.display = "none"; }, 3000); // hide after 3 sec
-  this.reset();
-})
-.catch(err => {
-  popup.innerText = "❌ Error: " + err;
-  popup.style.display = "block";
-  setTimeout(() => { popup.style.display = "none"; }, 3000);
-});
+      .then(res => res.text())
+      .then(data => {
+        popup.innerText = "✅ Data submitted successfully!";
+        popup.style.display = "block";
+        setTimeout(() => { popup.style.display = "none"; }, 3000);
+        form.reset();
+      })
+      .catch(err => {
+        popup.innerText = "❌ Error: " + err;
+        popup.style.display = "block";
+        setTimeout(() => { popup.style.display = "none"; }, 3000);
+      });
+    });
   </script>
-  <div id="popup" class="popup-message"></div>
 </body>
 </html>
