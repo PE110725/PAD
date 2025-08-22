@@ -3,6 +3,9 @@
 <head>
   <title>ENTER PIGMENT PROPERTIES</title>
   <style>
+    input, select, textarea {
+  text-transform: uppercase;
+}
     h2 {
       text-align: center;
       color: #FF0000;
@@ -146,6 +149,16 @@
         setTimeout(() => { popup.style.display = "none"; }, 3000);
       });
     });
+    <script>
+  // Make all inputs auto-uppercase while typing
+  const inputs = document.querySelectorAll("input[type=text], textarea");
+  inputs.forEach(input => {
+    input.addEventListener("input", () => {
+      input.value = input.value.toUpperCase();
+    });
+  });
+</script>
+
   </script>
 </body>
 </html>
