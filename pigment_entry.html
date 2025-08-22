@@ -145,8 +145,8 @@
           popup.innerText = "✅ Data submitted successfully!";
           form.reset();
         } else {
-          popup.innerText = "❌ Error: " + (data.message || "Unknown error");
-        }
+  popup.innerText = "❌ Error: " + (typeof data.message === "string" ? data.message : JSON.stringify(data.message));
+}
         popup.style.display = "block";
         setTimeout(() => { popup.style.display = "none"; }, 3000);
       })
