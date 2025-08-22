@@ -133,25 +133,33 @@
       const form = this;
       const formData = new FormData(form);
 
-      fetch("https://script.google.com/macros/s/AKfycbwTeLkM8XakaYeOqyTJTiEXzmY_VYFjvHjT876b_A4xtmcF5KW2eV0paA4aSnjbwjm8-A/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbxr8I9u6iRn3aITjOGRcjZsqbRgIf9bLT-FpfWWiPbzVQ3gU_S698POHU6KcU-WuTW7JA/exec", {
         method: "POST",
         body: formData
       })
-      .then(res => res.json())  // <-- handle JSON response from doPost
-      .then(data => {
+      .then(res => res.text())  // first read as text
+      .then(text => {
+        let data;
+        try {
+          data = JSON.parse(text);  // try parsing JSON
+        } catch (err) {
+          throw new Error("Invalid JSON response: " + text);
+        }
+
         if (data.result === "exists") {
           popup.innerText = "❌ Pigment data already exists!";
         } else if (data.result === "success") {
           popup.innerText = "✅ Data submitted successfully!";
           form.reset();
         } else {
-  popup.innerText = "❌ Error: " + (typeof data.message === "string" ? data.message : JSON.stringify(data.message));
-}
+          popup.innerText = "❌ Error: " + (data.message || "Unexpected response");
+        }
+
         popup.style.display = "block";
         setTimeout(() => { popup.style.display = "none"; }, 3000);
       })
       .catch(err => {
-        popup.innerText = "❌ Error: " + err;
+        popup.innerText = "❌ Error: " + err.message;
         popup.style.display = "block";
         setTimeout(() => { popup.style.display = "none"; }, 3000);
       });
