@@ -3,12 +3,6 @@
 <head>
   <title>ENTER PIGMENT PROPERTIES</title>
   <style>
-    input, select, textarea {
-      text-transform: uppercase;
-      padding: 6px;
-      width: 100%;
-    }
-
     h2 {
       text-align: center;
       color: #FF0000;
@@ -34,7 +28,9 @@
       font-size: 14px;
     }
 
-    .back-btn:hover { background: #005bb5; }
+    .back-btn:hover {
+      background: #005bb5;
+    }
 
     form {
       max-width: 800px;
@@ -42,6 +38,11 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
+    }
+
+    input, select, textarea {
+      padding: 6px;
+      width: 100%;
     }
 
     button {
@@ -53,7 +54,9 @@
       cursor: pointer;
     }
 
-    button:hover { background: #005bb5; }
+    button:hover {
+      background: #005bb5;
+    }
 
     .popup-message {
       position: fixed;
@@ -117,7 +120,7 @@
   <script>
     const popup = document.getElementById("popup");
 
-    // Auto-uppercase inputs
+    // Auto-uppercase for all text inputs & textarea
     const inputs = document.querySelectorAll("input[type=text], textarea");
     inputs.forEach(input => {
       input.addEventListener("input", () => {
@@ -125,7 +128,6 @@
       });
     });
 
-    // Form submission
     document.getElementById("entryForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const form = this;
