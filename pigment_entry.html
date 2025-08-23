@@ -91,8 +91,9 @@
     <input type="text" name="heatStability" placeholder="Heat Stability">
 
     <select name="tintingStrength" required>
-      <option value="" disabled selected hidden>TINT STRENGTH</option>
+      <option value="" disabled selected hidden>Tinting Strength</option>
       <option value="HIGH">HIGH</option>
+      <option value="MEDIUM">MEDIUM</option>
       <option value="LOW">LOW</option>
     </select>
 
@@ -100,17 +101,18 @@
     <input type="text" name="lightFastness" placeholder="Light Fastness">
     <input type="text" name="phValue" placeholder="pH Value">
 
-    <select name="rohs" required>
-      <option value="" disabled selected hidden>ROHS</option>
+    <select name="Compliance" required>
+      <option value="" disabled selected hidden>Compliance</option>
       <option value="RoHS">RoHS</option>
       <option value="Non RoHS">Non RoHS</option>
     </select>
 
     <select name="foodGrade" required>
-      <option value="" disabled selected hidden>FOOD GRADE</option>
+      <option value="" disabled selected hidden>FDA</option>
       <option value="Food Grade">Food Grade</option>
       <option value="Non Food Grade">Non Food Grade</option>
     </select>
+    <input type="text" name="Price" placeholder="Price">
 
     <button type="submit">Submit</button>
   </form>
@@ -133,7 +135,7 @@
       const form = this;
       const formData = new FormData(form);
 
-      fetch("https://script.google.com/macros/s/AKfycbzVL1LoHgLLZb5hEnpTVRQ-jcX9TRcs0heZzWxH2gek88QIPEx0NPmrqLzNxCLvK22tOw/exec", {
+      fetch("https://script.google.com/macros/s/AKfycby6umL2cJcosUI-sbP0fh65xbZCqKzKfxYI-L0k9HZsCn9nashcKyAaQaok4OpS9wPLkw/exec", {
         method: "POST",
         body: formData
       })
