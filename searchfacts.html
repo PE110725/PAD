@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search RM Facts</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+    input { width: 100%; padding: 10px; margin: 10px 0; font-size: 14px; }
+    button { padding: 10px 15px; cursor: pointer; }
+    .result { border: 1px solid #ddd; padding: 10px; margin-top: 10px; border-radius: 5px; }
+    .material { font-weight: bold; color: #2c3e50; }
+    .facts { margin-top: 5px; color: #555; }
+  </style>
+</head>
+<body>
+
+  <h2>Search Material Facts</h2>
+  <input type="text" id="searchBox" placeholder="Enter keyword...">
+  <button onclick="searchFacts()">Search</button>
+
+  <div id="results"></div>
+
+  <script>
+    async function searchFacts() {
+      const query = document.getElementById('searchBox').value.trim();
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = "Searching...";
+
+      if (!query) {
+        resultsDiv.innerHTML = "Please enter a keyword.";
+        return;
+      }
+
+      // 🔹 Replace with your deployed Web App URL
+      const scriptURL = "https://script.google.com/macros/s/AKfycby_vmCT8MGVLMZbtsHKRskh6p9rtcWcoPAM1XjAzC1ENn6EoFHzrQPD-jRV57iB7bHJTQ/exec?q=" + encodeURIComponent(query);
+
+      try {
+        const response = await fetch(scriptURL);
+        const data = await response.json();
+
+        if (data.length === 0) {
+          resultsDiv.innerHTML = "No matches found.";
+          return;
+        }
+
+        resultsDiv.innerHTML = "";
+        data.forEach(row => {
+          const div = document.createElement("div");
+          div.className = "result";
+          div.innerHTML = `<div class="material">${row.material}</div>
+                           <div class="facts">${row.facts}</div>`;
+          resultsDiv.appendChild(div);
+        });
+      } catch (err) {
+        resultsDiv.innerHTML = "Error: " + err.message;
+      }
+    }
+  </script>
+
+</body>
+</html>
