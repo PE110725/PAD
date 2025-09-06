@@ -1,103 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>RMfacts Entry</title>
+  <title>RM Facts Entry</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f3f3f3;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .form-container {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      width: 400px;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 6px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    button {
-      padding: 10px 14px;
-      margin-top: 8px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .submit-btn {
-      width: 100%;
-      background: #333;
-      color: white;
-    }
-    .submit-btn:hover { background: #555; }
-    .add-btn {
-      background: #007bff;
-      color: white;
-    }
-    .add-btn:hover { background: #0056b3; }
-    #response { margin-top: 10px; font-weight: bold; }
+    body { font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; }
+    input, textarea { width: 100%; margin: 8px 0; padding: 8px; font-size: 14px; }
+    button { padding: 10px 15px; font-size: 14px; cursor: pointer; }
+    h2 { text-align: center; }
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <h2>Enter Material Facts</h2>
-    <form id="RMfacts">
-      <input type="text" name="materialName" placeholder="Material Name" required>
 
-      <div id="pointsContainer">
-        <input type="text" name="points[]" placeholder="Fact 1">
-      </div>
-
-      <button type="button" class="add-btn" onclick="addPoint()">+ Add Fact</button>
-      <button type="submit" class="submit-btn">Submit</button>
-    </form>
-    <p id="response"></p>
-  </div>
+  <h2>Material Facts Form</h2>
+  <form id="materialForm">
+    <input name="material" placeholder="Material" required>
+    <textarea name="facts" placeholder="Facts Related To It" rows="5" required></textarea>
+    <button type="submit">Submit</button>
+  </form>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbx69AizHm0Y-pYQEbcunK6ir1UZAvb7NrVStZrpazJ_adseYlZPqCPPvaSdEDODUc_0lQ/exec"; // replace with your Apps Script URL
-    const pointsContainer = document.getElementById("pointsContainer");
-    let pointCount = 1;
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById('materialForm').addEventListener('submit', function (e) {
+        e.preventDefault();
 
-    function addPoint() {
-      pointCount++;
-      const input = document.createElement("input");
-      input.type = "text";
-      input.name = "points[]";
-      input.placeholder = "Fact " + pointCount;
-      pointsContainer.appendChild(input);
-    }
+        const form = e.target;
+        const formData = new FormData(form);
 
-    document.getElementById("RMfacts").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-      const data = Object.fromEntries(formData.entries());
-      data.points = formData.getAll("points[]"); // collect all fact inputs as an array
+        const material = formData.get('material');
+        const facts = formData.get('facts');
 
-      fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" }
-      })
-      .then(res => res.json())
-      .then(res => {
-        document.getElementById("response").innerText = res.message;
-        this.reset();
-        pointsContainer.innerHTML = '<input type="text" name="points[]" placeholder="Fact 1">';
-        pointCount = 1;
-      })
-      .catch(err => {
-        document.getElementById("response").innerText = "Error: " + err;
+        const data = new FormData();
+        data.append('material', material);
+        data.append('facts', facts);
+
+        // 🔹 Replace with your deployed Apps Script Web App URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyAiHXpPNY9U2Krv4g6Ta3jm0OUcaAh0BYw0MEiNd1Ehy3Y1Mf4IB_M-BkkJXdiq-MlHw/exec';
+
+        fetch(scriptURL, { method: 'POST', body: data })
+          .then(response => {
+            alert("Submitted Successfully!");
+            form.reset();
+          })
+          .catch(error => alert("Error: " + error.message));
       });
     });
   </script>
+
 </body>
 </html>
