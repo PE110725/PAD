@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RMfacts Entry</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      width: 400px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      padding: 10px 14px;
+      margin-top: 8px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .submit-btn {
+      width: 100%;
+      background: #333;
+      color: white;
+    }
+    .submit-btn:hover { background: #555; }
+    .add-btn {
+      background: #007bff;
+      color: white;
+    }
+    .add-btn:hover { background: #0056b3; }
+    #response { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Enter Material Facts</h2>
+    <form id="rmForm">
+      <input type="text" name="materialName" placeholder="Material Name" required>
+
+      <div id="pointsContainer">
+        <input type="text" name="points[]" placeholder="Fact 1">
+      </div>
+
+      <button type="button" class="add-btn" onclick="addPoint()">+ Add Fact</button>
+      <button type="submit" class="submit-btn">Submit</button>
+    </form>
+    <p id="response"></p>
+  </div>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbx-GFMVnsLhV28wiqv8KedlJKWo0WThrlNhemHrqKibxIsD1cY_qxz8BfhbGcbQLdHVCA/exec"; // replace with your Apps Script URL
+    const pointsContainer = document.getElementById("pointsContainer");
+    let pointCount = 1;
+
+    function addPoint() {
+      pointCount++;
+      const input = document.createElement("input");
+      input.type = "text";
+      input.name = "points[]";
+      input.placeholder = "Fact " + pointCount;
+      pointsContainer.appendChild(input);
+    }
+
+    document.getElementById("rmForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+      data.points = formData.getAll("points[]"); // collect all fact inputs as an array
+
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.json())
+      .then(res => {
+        document.getElementById("response").innerText = res.message;
+        this.reset();
+        pointsContainer.innerHTML = '<input type="text" name="points[]" placeholder="Fact 1">';
+        pointCount = 1;
+      })
+      .catch(err => {
+        document.getElementById("response").innerText = "Error: " + err;
+      });
+    });
+  </script>
+</body>
+</html>
